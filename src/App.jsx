@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,10 +6,22 @@ function App() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
+  useEffect(() => {
+    let todoString = localStorage.getItem("todos");
+    if (todoString) {
+      let todos = JSON.parse(localStorage.getItem("todos"))
+      setTodos(todos);
+    }
+  }, [])
+
+  const saveToLS = (params) => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }
+
   const handleAdd = () => {
     setTodos([...todos, { id: uuidv4(), todo, isCompleted: false }])
     setTodo("");
-    console.log(todos)
+    saveToLS()
   }
 
   const handleChange = (e) => {
@@ -23,6 +35,7 @@ function App() {
       return item.id !== id
     })
     setTodos(newTodos);
+    saveToLS()
   }
 
   const handleDelete = (e, id) => {
@@ -30,6 +43,7 @@ function App() {
       return item.id !== id
     })
     setTodos(newTodos);
+    saveToLS()
   }
 
   const handleCheckbox = (e) => {
@@ -40,6 +54,7 @@ function App() {
     let newTodos = [...todos];
     newTodos[index].isCompleted = !newTodos[index].isCompleted;
     setTodos(newTodos);
+    saveToLS()
   }
   return (
     <>
@@ -63,7 +78,7 @@ function App() {
                     {item.todo}
                   </div>
                 </div>
-                <div className="buttons">
+                <div className="buttons flex h-full">
                   <button onClick={(e) => handleEdit(e, item.id)} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2">Edit</button>
                   <button onClick={(e) => { handleDelete(e, item.id) }} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2">Delete</button>
                 </div>
