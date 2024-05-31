@@ -21,9 +21,6 @@ function App() {
   }
 
   const handleDelete = (e, id) => {
-    let index = todos.findIndex(item => {
-      return item.id === id;
-    })
     let newTodos = todos.filter(item => {
       return item.id !== id
     })
@@ -50,6 +47,7 @@ function App() {
         </div>
         <h2 className='text-lg font-bold'>Your Todos</h2>
         <div className="todos">
+          {todos.length === 0 && <div>No Todos to Display</div>}
           {
             todos.map(item => {
               return <div key={item.id} className="todo flex my-5 justify-between">
