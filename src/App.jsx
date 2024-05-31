@@ -66,7 +66,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto my-5 rounded-xl p-5 bg-violet-100 min-h-[80vh] w-1/2">
+      <div className="md:container mx-auto my-5 rounded-xl p-5 bg-violet-100 min-h-[80vh] w-1/2">
         <h1 className='font-bold text-center text-xl'>iTask Manage Your todo's at one place</h1>
         <div className="addTodo my-5 flex flex-col gap-4">
           <h2 className='text-lg font-bold'>Add a Todo</h2>
@@ -74,27 +74,47 @@ function App() {
           <button onClick={handleAdd} disabled={todo.length < 3} className='bg-violet-800
           hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md'>Add</button>
         </div>
-        <input onChange={toggleFinished} type="checkbox" chacked={showFinished} /> Show Finished
+        <input className='my-4' onChange={toggleFinished} type="checkbox" chacked={showFinished} /> Show Finished
         <h2 className='text-lg font-bold'>Your Todos</h2>
-        <div className="todos">
-          {todos.length === 0 && <div className='m-5'>No Todos to Display</div>}
+        <div className="todos p-4 md:p-8 lg:p-12">
+          {todos.length === 0 && <div className='m-5 text-center'>No Todos to Display</div>}
           {
             todos.map(item => {
-              return (!item.isCompleted || showFinished) && <div key={item.id} className="todo flex my-5 justify-between">
-                <div className='flex gap-5'>
-                  <input name={item.id} onChange={handleCheckbox} type="checkbox" chacked={item.isCompleted} id='' />
-                  <div className={item.isCompleted ? "line-through" : ""}>
-                    {item.todo}
+              return (!item.isCompleted || showFinished) && (
+                <div key={item.id} className="todo flex flex-col sm:flex-row my-5 justify-between items-center sm:items-start">
+                  <div className='flex flex-col sm:flex-row gap-5 items-center sm:items-start'>
+                    <input
+                      name={item.id}
+                      onChange={handleCheckbox}
+                      type="checkbox"
+                      checked={item.isCompleted}
+                      className="h-5 w-5"
+                      id=''
+                    />
+                    <div className={item.isCompleted ? "line-through text-center sm:text-left" : "text-center sm:text-left"}>
+                      {item.todo}
+                    </div>
+                  </div>
+                  <div className="buttons flex gap-2 mt-2 sm:mt-0">
+                    <button
+                      onClick={(e) => handleEdit(e, item.id)}
+                      className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md"
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={(e) => { handleDelete(e, item.id) }}
+                      className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md"
+                    >
+                      <MdAutoDelete />
+                    </button>
                   </div>
                 </div>
-                <div className="buttons flex h-full">
-                  <button onClick={(e) => handleEdit(e, item.id)} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2"><FaEdit /></button>
-                  <button onClick={(e) => { handleDelete(e, item.id) }} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2"><MdAutoDelete /></button>
-                </div>
-              </div>
+              )
             })
           }
         </div>
+
       </div>
     </>
   )
