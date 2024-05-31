@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import { v4 as uuidv4 } from 'uuid';
+import { MdAutoDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 function App() {
   const [todo, setTodo] = useState("");
@@ -65,11 +67,12 @@ function App() {
     <>
       <Navbar />
       <div className="container mx-auto my-5 rounded-xl p-5 bg-violet-100 min-h-[80vh] w-1/2">
-        <div className="addTodo my-5">
+        <h1 className='font-bold text-center text-xl'>iTask Manage Your todo's at one place</h1>
+        <div className="addTodo my-5 flex flex-col gap-4">
           <h2 className='text-lg font-bold'>Add a Todo</h2>
-          <input onChange={handleChange} value={todo} type="text" className='w-80' />
+          <input onChange={handleChange} value={todo} type="text" className='w-full rounded-lg px-5 py-1' />
           <button onClick={handleAdd} disabled={todo.length < 3} className='bg-violet-800
-          hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-6'>Add</button>
+          hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md'>Add</button>
         </div>
         <input onChange={toggleFinished} type="checkbox" chacked={showFinished} /> Show Finished
         <h2 className='text-lg font-bold'>Your Todos</h2>
@@ -85,8 +88,8 @@ function App() {
                   </div>
                 </div>
                 <div className="buttons flex h-full">
-                  <button onClick={(e) => handleEdit(e, item.id)} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2">Edit</button>
-                  <button onClick={(e) => { handleDelete(e, item.id) }} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2">Delete</button>
+                  <button onClick={(e) => handleEdit(e, item.id)} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2"><FaEdit /></button>
+                  <button onClick={(e) => { handleDelete(e, item.id) }} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-2"><MdAutoDelete /></button>
                 </div>
               </div>
             })
